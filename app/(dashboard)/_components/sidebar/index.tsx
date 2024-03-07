@@ -24,21 +24,24 @@ export function Sidebar() {
 			href: "/orders",
 		},
 	];
-	
+
 	return (
-		<aside className="w-[250px] min-h-screen sticky p-4 space-y-2 border-r flex flex-col">
+		<aside className="w-[250px] min-h-screen sticky p-4 border-r flex flex-col">
 			<div className="flex items-center justify-center mb-8">
 				<Logo size={120} href="/home" />
 			</div>
-			{routes.map((item, i) => (
-				<Item
-					key={i}
-					label={item.label}
-					href={item.href}
-					icon={item.icon}
-					isActive={pathname.includes(item.href)}
-				/>
-			))}
+			<ul className="space-y-3">
+				{routes.map((item, i) => (
+					<li key={i}>
+						<Item
+							label={item.label}
+							href={item.href}
+							icon={item.icon}
+							isActive={pathname.includes(item.href)}
+						/>
+					</li>
+				))}
+			</ul>
 		</aside>
 	);
 }
