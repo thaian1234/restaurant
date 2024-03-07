@@ -15,7 +15,7 @@ export function Item({ href, icon: Icon, label, isActive }: ItemProps) {
 		<Link href={href}>
 			<Button
 				className={cn(
-					"size-full py-3 ",
+					"size-full py-3",
 					isActive &&
 						"bg-gradient-to-r from-orange-500/40 to-orange-400/80 text-foreground"
 				)}

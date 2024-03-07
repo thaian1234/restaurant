@@ -1,7 +1,7 @@
 "use client";
 
 import { Logo } from "@/components/logo";
-import { Home, Soup } from "lucide-react";
+import { Home, ListOrdered, MenuIcon, Soup, SoupIcon } from "lucide-react";
 import { Item } from "./item";
 import { usePathname } from "next/navigation";
 
@@ -14,11 +14,17 @@ export function Sidebar() {
 			href: "/home",
 		},
 		{
+			label: "Menu",
+			icon: SoupIcon,
+			href: "/menu",
+		},
+		{
 			label: "Orders",
-			icon: Soup,
+			icon: ListOrdered,
 			href: "/orders",
 		},
 	];
+	
 	return (
 		<aside className="w-[250px] min-h-screen sticky p-4 space-y-2 border-r flex flex-col">
 			<div className="flex items-center justify-center mb-8">
