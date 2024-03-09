@@ -115,11 +115,7 @@ export function CreateForm() {
 					</div>
 				</div>
 
-				<Button
-					isLoading={isPending}
-					disabled={isPending}
-					type="submit"
-				>
+				<Button isLoading={isPending} type="submit">
 					Xác nhận
 				</Button>
 			</form>

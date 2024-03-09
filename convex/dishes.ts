@@ -28,8 +28,12 @@ export const create = mutation({
 });
 
 export const getDishes = query({
-	async handler(ctx, args) {
+	async handler(ctx) {
 		const user = await ctx.auth.getUserIdentity();
 		if (!user) throw new Error("Unauthorized");
+
+		const dishes = await ctx.table("menus").firstX().edgeX("dishes");
+
+		return dishes;
 	},
 });

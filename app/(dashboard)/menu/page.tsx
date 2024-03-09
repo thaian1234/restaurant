@@ -1,9 +1,21 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { PlusCircleIcon } from "lucide-react";
+import { preloadQuery } from "convex/nextjs";
 import Link from "next/link";
+import { api } from "@/convex/_generated/api";
+import { getAuthToken } from "@/lib/auth";
+import { ListMenu, ListMenuSkeleton } from "./_components/menu-list";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export default function MenuPage() {
+export default async function MenuPage() {
+	const token = await getAuthToken();
+	const preloadDishes = await preloadQuery(
+		api.dishes.getDishes,
+		{},
+		{ token }
+	);
+
 	return (
 		<section className="flex flex-col space-y-4">
 			<div className="flex items-center justify-between">
@@ -18,7 +30,20 @@ export default function MenuPage() {
 				</Link>
 			</div>
 			<Separator />
-			{/* TODO: Danh sách món ăn */}
+			<ListMenu preloadDishes={preloadDishes} />
+		</section>
+	);
+}
+
+export function MenuPageLoading() {
+	return (
+		<section className="flex flex-col space-y-4">
+			<div className="flex items-center justify-between">
+				<Skeleton className="w-[240px] h-14" />
+				<Skeleton className="w-[260px] h-14" />
+			</div>
+			<Separator />
+			<ListMenuSkeleton />
 		</section>
 	);
 }

@@ -12,7 +12,7 @@ export default function DashboardLayout({
 		<ClerkLoaded>
 			<section className="flex">
 				<Sidebar />
-				<div className="flex-1 flex-col">
+				<div className="flex-1 flex-col pl-[250px]">
 					<Header />
 					<Wrapper>{children}</Wrapper>
 				</div>

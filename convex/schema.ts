@@ -5,7 +5,7 @@ const schema = defineEntSchema({
 	dishes: defineEnt({
 		name: v.string(),
 		price: v.number(),
-		imageUrl: v.optional(v.string()),
+		imageUrl: v.string(),
 	}).edge("menu"),
 
 	menus: defineEnt({
