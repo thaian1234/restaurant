@@ -5,7 +5,7 @@ export function Navbar() {
 	return (
 		<nav className="flex justify-between items-center w-[90%] mx-auto">
 			<SearchInput />
-			<UserButton />
+			<UserButton afterSignOutUrl="/" />
 		</nav>
 	);
 }

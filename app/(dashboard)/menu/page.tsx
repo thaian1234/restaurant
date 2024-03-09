@@ -7,6 +7,7 @@ import { api } from "@/convex/_generated/api";
 import { getAuthToken } from "@/lib/auth";
 import { ListMenu, ListMenuSkeleton } from "./_components/menu-list";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Suspense } from "react";
 
 export default async function MenuPage() {
 	const token = await getAuthToken();

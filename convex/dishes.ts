@@ -4,7 +4,7 @@ import { mutation, query } from "./functions";
 export const create = mutation({
 	args: {
 		price: v.number(),
-		imageUrl: v.optional(v.string()),
+		imageUrl: v.string(),
 		name: v.string(),
 	},
 	async handler(ctx, args) {

@@ -1,20 +1,18 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
-import { SignInButton, UserButton } from "@clerk/clerk-react";
-import { useConvexAuth } from "convex/react";
+import { SignInButton, UserButton } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs";
 
 export function Navbar() {
-	const { isAuthenticated, isLoading } = useConvexAuth();
+	const { userId } = auth();
 
 	return (
-		<nav>
-			{!isAuthenticated && (
+		<nav className="px-4">
+			{!userId && (
 				<SignInButton mode="modal">
-					<Button isLoading={isLoading}>Sign in</Button>
+					<Button>Sign in</Button>
 				</SignInButton>
 			)}
-			{isAuthenticated && <UserButton afterSignOutUrl="/" />}
+			{userId && <UserButton afterSignOutUrl="/" />}
 		</nav>
 	);
 }

@@ -16,7 +16,9 @@ export function ListMenu({ preloadDishes }: ListMenuProps) {
 		<ul className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-x-6 gap-y-8">
 			<p className="hidden last:block">Không tìm thấy món ăn</p>
 			{dishes.map((dish) => (
-				<MenuItem key={dish._id} dish={dish} />
+				<li key={dish._id}>
+					<MenuItem dish={dish} />
+				</li>
 			))}
 		</ul>
 	);
@@ -24,9 +26,9 @@ export function ListMenu({ preloadDishes }: ListMenuProps) {
 
 export function ListMenuSkeleton() {
 	return (
-		<div className="flex flex-wrap space-x-4 w-full">
+		<div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-x-6 gap-y-8">
 			{Array.from({ length: 4 }).map((_, i) => {
-				return <Skeleton key={i} className="flex-1 h-[250px]" />;
+				return <Skeleton key={i} className="h-[260px] w-full" />;
 			})}
 		</div>
 	);

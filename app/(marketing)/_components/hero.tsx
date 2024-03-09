@@ -1,12 +1,12 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
-import { useConvexAuth } from "convex/react";
+import { auth } from "@clerk/nextjs";
+// import { useConvexAuth } from "convex/react";
 import Image from "next/image";
 import Link from "next/link";
 
 export function Hero() {
-	const { isAuthenticated, isLoading } = useConvexAuth();
+	// const { isAuthenticated, isLoading } = useConvexAuth();
+	const { userId } = auth();
 
 	return (
 		<section className="container h-full flex flex-col items-center justify-center">
@@ -21,11 +21,9 @@ export function Hero() {
 				alt="Restaurant Image"
 				priority
 			/>
-			{isAuthenticated && (
+			{userId && (
 				<Link href={"/home"}>
-					<Button isLoading={isLoading} className="animate-bounce">
-						Go to restaurant
-					</Button>
+					<Button className="animate-bounce">Go to restaurant</Button>
 				</Link>
 			)}
 		</section>

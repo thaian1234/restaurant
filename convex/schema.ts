@@ -6,11 +6,21 @@ const schema = defineEntSchema({
 		name: v.string(),
 		price: v.number(),
 		imageUrl: v.string(),
-	}).edge("menu"),
+	})
+		.edge("menu")
+		.edges("order_items", { ref: "dishId" }),
 
 	menus: defineEnt({
 		name: v.string(),
 	}).edges("dishes", { ref: true }),
+
+	orders: defineEnt({
+		isPaid: v.boolean(),
+	}).edges("order_items", { ref: true }),
+
+	order_items: defineEnt({})
+		.edge("order")
+		.edge("dishe", { field: "dishId" }),
 });
 
 export default schema;
