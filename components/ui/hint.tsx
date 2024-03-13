@@ -24,6 +24,7 @@ export function Hint({ label, children, asChild, side, align }: HintProps) {
 					className="text-muted-foreground bg-white"
 					side={side}
 					align={align}
+					sideOffset={10}
 				>
 					<p className="font-bold">{label}</p>
 				</TooltipContent>

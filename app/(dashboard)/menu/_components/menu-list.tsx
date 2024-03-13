@@ -28,7 +28,9 @@ export function ListMenuSkeleton() {
 	return (
 		<div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-x-6 gap-y-8">
 			{Array.from({ length: 4 }).map((_, i) => {
-				return <Skeleton key={i} className="h-[260px] w-full" />;
+				return (
+					<Skeleton key={i} className="h-[320px] w-full rounded-lg" />
+				);
 			})}
 		</div>
 	);

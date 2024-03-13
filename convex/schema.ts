@@ -16,11 +16,10 @@ const schema = defineEntSchema({
 
 	orders: defineEnt({
 		isPaid: v.boolean(),
+		userId: v.string(),
 	}).edges("order_items", { ref: true }),
 
-	order_items: defineEnt({})
-		.edge("order")
-		.edge("dishe", { field: "dishId" }),
+	order_items: defineEnt({}).edge("order").edge("dishe", { field: "dishId" }),
 });
 
 export default schema;

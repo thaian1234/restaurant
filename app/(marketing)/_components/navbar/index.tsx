@@ -1,18 +1,17 @@
 import { Button } from "@/components/ui/button";
-import { SignInButton, UserButton } from "@clerk/nextjs";
-import { auth } from "@clerk/nextjs";
+import { SignInButton, SignedIn, UserButton, SignedOut } from "@clerk/nextjs";
 
 export function Navbar() {
-	const { userId } = auth();
-
 	return (
 		<nav className="px-4">
-			{!userId && (
+			<SignedIn>
+				<UserButton afterSignOutUrl="/" />
+			</SignedIn>
+			<SignedOut>
 				<SignInButton mode="modal">
 					<Button>Sign in</Button>
 				</SignInButton>
-			)}
-			{userId && <UserButton afterSignOutUrl="/" />}
+			</SignedOut>
 		</nav>
 	);
 }

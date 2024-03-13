@@ -7,7 +7,7 @@ import { Button } from "./ui/button";
 import { Trash } from "lucide-react";
 import { Hint } from "./ui/hint";
 import { useTransition } from "react";
-import { deleteImage } from "@/server/deleteImage";
+import { deleteImage } from "@/action/deleteImage";
 import { cn } from "@/lib/utils";
 
 interface UploadProps {
@@ -19,7 +19,6 @@ export function Upload({ onChange, url }: UploadProps) {
 	const [isPending, startTransition] = useTransition();
 
 	const handleDelete = () => {
-		// TODO: Xóa ảnh đã upload
 		startTransition(() => {
 			deleteImage(url)
 				.then(() => {
@@ -43,14 +42,17 @@ export function Upload({ onChange, url }: UploadProps) {
 				>
 					<Hint label="Xóa ảnh" asChild>
 						<Button
-							className="absolute p-3 top-4 right-2 z-40 size-auto"
+							className="absolute p-3 right-2 z-40 size-auto"
 							variant={"destructive"}
 							type="button"
 							size={"icon"}
 							onClick={handleDelete}
 							disabled={isPending}
 						>
-							<Trash className="size-4" />
+							<Trash
+								className="size-4"
+								aria-label="Delete image"
+							/>
 						</Button>
 					</Hint>
 					<Image

@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
 	Form,
@@ -11,15 +10,21 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Upload } from "@/components/upload";
 import { api } from "@/convex/_generated/api";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "convex/react";
+import { Preloaded, useMutation, usePreloadedQuery } from "convex/react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
+import * as z from "zod";
+import { DeleteDish } from "./delete-dish";
+
+interface DishFormProps {
+	initialData: Preloaded<typeof api.dishes.getDishById>;
+}
 
 const createDishSchema = z.object({
 	name: z.string().min(3, {
@@ -31,29 +36,43 @@ const createDishSchema = z.object({
 
 type CreateDishFields = z.infer<typeof createDishSchema>;
 
-export function CreateForm() {
+export function DishForm({ initialData }: DishFormProps) {
+	const dish = usePreloadedQuery(initialData);
 	const form = useForm<CreateDishFields>({
 		resolver: zodResolver(createDishSchema),
 		defaultValues: {
-			name: "",
-			price: 0,
-			imageUrl: "",
+			name: dish?.name,
+			price: dish?.price || 0,
+			imageUrl: dish?.imageUrl,
 		},
 	});
 	const router = useRouter();
 	const create = useMutation(api.dishes.create);
+	const update = useMutation(api.dishes.update);
 	const [isPending, startTransition] = useTransition();
 
 	const onSubmit = form.handleSubmit((data) => {
 		if (!data) return;
 
 		startTransition(() => {
-			create(data)
-				.then(() => {
-					toast.success("Thêm món ăn thành công");
-					router.replace("/menu");
+			if (!dish) {
+				create(data)
+					.then(() => {
+						toast.success("Thêm món ăn thành công");
+						router.replace("/menu");
+					})
+					.catch(() => toast.error("Thêm món ăn thất bại"));
+			} else {
+				update({
+					id: dish._id,
+					...data,
 				})
-				.catch(() => toast.error("Thêm món ăn thất bại"));
+					.then(() => {
+						toast.success("Cập nhật món ăn thành công");
+						router.refresh();
+					})
+					.catch(() => toast.error("Cập nhật món ăn thất bại"));
+			}
 		});
 	});
 
@@ -115,10 +134,29 @@ export function CreateForm() {
 					</div>
 				</div>
 
-				<Button isLoading={isPending} type="submit">
-					Xác nhận
-				</Button>
+				<div className="space-x-8">
+					<Button isLoading={isPending} type="submit">
+						{dish ? "Cập nhật" : "Xác nhận"}
+					</Button>
+					<DeleteDish dishId={dish?._id} />
+				</div>
 			</form>
 		</Form>
+	);
+}
+
+export function DishFormSkeleton() {
+	return (
+		<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 sm:gap-y-10">
+			<Skeleton className="w-full h-[450px] lg:col-span-2" />
+			<div className="space-y-8">
+				<Skeleton className="w-full h-14" />
+				<Skeleton className="w-full h-14" />
+			</div>
+			<div className="space-x-8 flex items-center">
+				<Skeleton className="w-32 h-14" />
+				<Skeleton className="w-32 h-14" />
+			</div>
+		</div>
 	);
 }

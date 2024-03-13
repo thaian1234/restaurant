@@ -1,12 +1,10 @@
 "use client";
 
 import { Logo } from "@/components/logo";
-import { Home, ListOrdered, MenuIcon, Soup, SoupIcon } from "lucide-react";
+import { Home, ListOrdered, SoupIcon } from "lucide-react";
 import { Item } from "./item";
-import { usePathname } from "next/navigation";
 
 export function Sidebar() {
-	const pathname = usePathname();
 	const routes = [
 		{
 			label: "Home",
@@ -37,7 +35,6 @@ export function Sidebar() {
 							label={item.label}
 							href={item.href}
 							icon={item.icon}
-							isActive={pathname.includes(item.href)}
 						/>
 					</li>
 				))}

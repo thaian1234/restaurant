@@ -7,7 +7,6 @@ import { api } from "@/convex/_generated/api";
 import { getAuthToken } from "@/lib/auth";
 import { ListMenu, ListMenuSkeleton } from "./_components/menu-list";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Suspense } from "react";
 
 export default async function MenuPage() {
 	const token = await getAuthToken();
@@ -23,7 +22,7 @@ export default async function MenuPage() {
 				<h2 className="text-3xl font-semibold tracking-tight first:mt-0">
 					Danh sách món ăn
 				</h2>
-				<Link href={"/menu/create"}>
+				<Link href={"/menu/dish/new"}>
 					<Button>
 						<PlusCircleIcon className="size-4 mr-2" />
 						Thêm món ăn
