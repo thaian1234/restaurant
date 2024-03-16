@@ -12,9 +12,10 @@ interface ListMenuProps {
 export function ListMenu({ preloadDishes }: ListMenuProps) {
 	const dishes = usePreloadedQuery(preloadDishes);
 
+	if (!dishes) return <p>Không tìm thấy món ăn</p>;
+
 	return (
 		<ul className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-x-6 gap-y-8">
-			<p className="hidden last:block">Không tìm thấy món ăn</p>
 			{dishes.map((dish) => (
 				<li key={dish._id}>
 					<MenuItem dish={dish} />

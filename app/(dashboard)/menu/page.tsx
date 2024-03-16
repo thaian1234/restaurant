@@ -35,15 +35,4 @@ export default async function MenuPage() {
 	);
 }
 
-export function MenuPageLoading() {
-	return (
-		<section className="flex flex-col space-y-4">
-			<div className="flex items-center justify-between">
-				<Skeleton className="w-[240px] h-14" />
-				<Skeleton className="w-[260px] h-14" />
-			</div>
-			<Separator />
-			<ListMenuSkeleton />
-		</section>
-	);
-}
+

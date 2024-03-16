@@ -1,6 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "./functions";
-import { Doc, Id } from "./_generated/dataModel";
+import { Id } from "./_generated/dataModel";
 
 export const create = mutation({
 	args: {
@@ -12,14 +12,10 @@ export const create = mutation({
 		const user = await ctx.auth.getUserIdentity();
 		if (!user) throw new Error("Unauthorized");
 
-		const existingMenu = await ctx.table("menus").first();
-		if (!existingMenu) throw new Error("Không tìm thấy menu");
-
 		const dish = await ctx.table("dishes").insert({
 			name: args.name,
 			price: args.price,
 			imageUrl: args.imageUrl,
-			menuId: existingMenu._id,
 		});
 
 		if (!dish) throw new Error("Thêm món ăn thất bại");
@@ -30,12 +26,16 @@ export const create = mutation({
 
 export const getDishes = query({
 	async handler(ctx) {
-		const user = await ctx.auth.getUserIdentity();
-		if (!user) throw new Error("Unauthorized");
+		try {
+			const user = await ctx.auth.getUserIdentity();
+			if (!user) throw new Error("Unauthorized");
 
-		const dishes = await ctx.table("menus").firstX().edgeX("dishes");
+			const dishes = await ctx.table("dishes");
 
-		return dishes;
+			return dishes;
+		} catch (error) {
+			return null;
+		}
 	},
 });
 
@@ -86,14 +86,12 @@ export const deleteById = mutation({
 		id: v.id("dishes"),
 	},
 	async handler(ctx, args) {
-		try {
-			const user = await ctx.auth.getUserIdentity();
-			if (!user) throw new Error("Unauthorized");
+		const user = await ctx.auth.getUserIdentity();
+		if (!user) throw new Error("Unauthorized");
 
-			const dish = await ctx.table("dishes").getX(args.id).delete();
-			if (!dish) throw new Error("Không thể xóa món ăn");
-		} catch (error) {
-			throw new Error("Xóa món ăn thất bại");
-		}
+		const dish = await ctx.table("dishes").getX(args.id).delete();
+		if (!dish) throw new Error("Không thể xóa món ăn");
+
+		return dish;
 	},
 });

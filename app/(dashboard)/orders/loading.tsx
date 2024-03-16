@@ -1,8 +1,7 @@
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ListMenuSkeleton } from "./_components/menu-list";
 
-export default function LoadingMenu() {
+export default function LoadingOrdersPage() {
 	return (
 		<section className="flex flex-col space-y-4">
 			<div className="flex items-center justify-between">
@@ -10,7 +9,7 @@ export default function LoadingMenu() {
 				<Skeleton className="w-[260px] h-14" />
 			</div>
 			<Separator />
-			<ListMenuSkeleton />
+			<Skeleton className="w-full h-[550px]" />
 		</section>
 	);
 }

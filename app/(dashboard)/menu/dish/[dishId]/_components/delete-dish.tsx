@@ -4,7 +4,7 @@ import { DeleteAlert } from "@/components/delete-alert";
 import { Button } from "@/components/ui/button";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import { useMutation } from "convex/react";
+import { useAction, useMutation } from "convex/react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";

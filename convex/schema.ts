@@ -1,25 +1,39 @@
 import { v } from "convex/values";
 import { defineEnt, defineEntSchema, getEntDefinitions } from "convex-ents";
 
+export enum OrderItemStatus {
+	inProgress = "Đang làm",
+	complete = "Hoàn thành",
+}
+
 const schema = defineEntSchema({
 	dishes: defineEnt({
 		name: v.string(),
 		price: v.number(),
 		imageUrl: v.string(),
-	})
-		.edge("menu")
-		.edges("order_items", { ref: "dishId" }),
-
-	menus: defineEnt({
-		name: v.string(),
-	}).edges("dishes", { ref: true }),
+	}).edges("order_items", { ref: "dishId" }),
 
 	orders: defineEnt({
 		isPaid: v.boolean(),
 		userId: v.string(),
-	}).edges("order_items", { ref: true }),
+		username: v.string(),
+	})
+		.edges("order_items", { ref: true })
+		.edge("table"),
 
-	order_items: defineEnt({}).edge("order").edge("dishe", { field: "dishId" }),
+	order_items: defineEnt({
+		quantity: v.number(),
+		status: v.union(
+			v.literal(OrderItemStatus.inProgress),
+			v.literal(OrderItemStatus.complete)
+		),
+	})
+		.edge("order")
+		.edge("dishe", { field: "dishId" }),
+
+	tables: defineEnt({
+		name: v.string(),
+	}).edges("orders", { ref: true }),
 });
 
 export default schema;
