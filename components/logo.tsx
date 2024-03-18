@@ -16,7 +16,7 @@ export function Logo({ size, href, label }: LogoProps) {
 				width={size}
 				height={size}
 				alt="Logo"
-				sizes="50vw"
+				sizes="25vw"
 				priority
 			/>
 			{label}

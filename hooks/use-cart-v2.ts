@@ -18,7 +18,7 @@ interface Actions {
 	removeAll: () => void;
 }
 
-export const useCartStore = create<CartState & Actions>((set, get) => ({
+export const useCartStore = create<CartState & Actions>((set) => ({
 	cartItems: [],
 	addItem(dish) {
 		set((state) => {

@@ -32,7 +32,7 @@ const createOrderSchema = z.object({
 		message: "Bạn chưa chọn bàn ăn",
 	}),
 	dishIds: z.array(z.string()).refine((value) => value.some((item) => item), {
-		message: "Bạn phải chọn ít nhát 1 món ăn",
+		message: "Bạn phải chọn ít nhất 1 món ăn",
 	}),
 });
 
@@ -92,8 +92,9 @@ export function OrderForm({ preloadTables, preloadedDishes }: OrderFormProps) {
 								<FormControl>
 									<Combobox
 										options={tableOptions}
-										{...field}
 										title={"Bàn ăn"}
+										onChange={field.onChange}
+										value={field.value}
 									/>
 								</FormControl>
 								<FormMessage />
@@ -118,10 +119,17 @@ export function OrderForm({ preloadTables, preloadedDishes }: OrderFormProps) {
 										Reset
 									</Button>
 								</div>
+
 								{!dishes && <p>Không có món ăn nào</p>}
-								{dishes && (
-									<MenuList dishes={dishes} {...field} />
-								)}
+								<FormControl>
+									{dishes && (
+										<MenuList
+											dishes={dishes}
+											onChange={field.onChange}
+											value={field.value}
+										/>
+									)}
+								</FormControl>
 								<FormMessage className="p-4" />
 							</FormItem>
 						)}
