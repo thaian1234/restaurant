@@ -42,7 +42,7 @@ export function OrderForm({ preloadTables, preloadedDishes }: OrderFormProps) {
 	const router = useRouter();
 	const tables = usePreloadedQuery(preloadTables);
 	const dishes = usePreloadedQuery(preloadedDishes);
-	const { cartItems, removeAll } = useCart();
+	const { removeAll } = useCart((state) => state);
 	const createOrder = useMutation(api.orders.create);
 	const form = useForm<createOrderFields>({
 		resolver: zodResolver(createOrderSchema),
@@ -58,12 +58,13 @@ export function OrderForm({ preloadTables, preloadedDishes }: OrderFormProps) {
 				value: table._id,
 				label: table.name,
 			};
-		}) ?? [];
+		}) || [];
 
 	const handleRemoveAll = () => {
 		removeAll();
 		form.resetField("dishIds");
 	};
+
 	const onSubmit = form.handleSubmit((data) => {
 		const promise = createOrder(data);
 
@@ -117,7 +118,6 @@ export function OrderForm({ preloadTables, preloadedDishes }: OrderFormProps) {
 										Reset
 									</Button>
 								</div>
-								{/* <Separator /> */}
 								{!dishes && <p>Không có món ăn nào</p>}
 								{dishes && (
 									<MenuList dishes={dishes} {...field} />

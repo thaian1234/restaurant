@@ -3,25 +3,25 @@ import { Hint } from "@/components/ui/hint";
 import { Separator } from "@/components/ui/separator";
 import { CornerDownLeft } from "lucide-react";
 import Link from "next/link";
-import { OrderForm, OrderFormSkeleton } from "./_components/order-form";
+import { OrderForm } from "./_components/order-form";
 import { preloadQuery } from "convex/nextjs";
 import { api } from "@/convex/_generated/api";
 import { getAuthToken } from "@/lib/auth";
-import { Skeleton } from "@/components/ui/skeleton";
 
 export default async function CreateOrderPage() {
 	const token = await getAuthToken();
-	const preloadTables = await preloadQuery(
-		api.tables.getTables,
-		{},
-		{ token }
-	);
+	const preloadTablesData = preloadQuery(api.tables.getTables, {}, { token });
 
-	const preloadedDishes = await preloadQuery(
+	const preloadedDishesData = preloadQuery(
 		api.dishes.getDishes,
 		{},
 		{ token }
 	);
+
+	const [preloadTables, preloadedDishes] = await Promise.all([
+		preloadTablesData,
+		preloadedDishesData,
+	]);
 
 	return (
 		<section className="flex flex-col space-y-4">

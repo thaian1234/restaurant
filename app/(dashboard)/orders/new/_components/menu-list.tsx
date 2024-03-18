@@ -1,9 +1,6 @@
-import { api } from "@/convex/_generated/api";
 import { Doc } from "@/convex/_generated/dataModel";
-import { Preloaded } from "convex/react";
 import { MenuItem } from "./menu-item";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface MenuListProps {
@@ -15,16 +12,19 @@ interface MenuListProps {
 export function MenuList({ dishes, value, onChange }: MenuListProps) {
 	return (
 		<ScrollArea className="w-full h-[600px]">
-			<div className="divide-y divide-primary/40 p-2">
+			<ul className="divide-y divide-primary/40 p-2">
 				{dishes.map((dish) => (
 					<MenuItem
 						key={dish._id}
 						dish={dish}
 						value={value}
 						onChange={onChange}
+						quantity={
+							value.filter((item) => item === dish._id).length
+						}
 					/>
 				))}
-			</div>
+			</ul>
 		</ScrollArea>
 	);
 }
