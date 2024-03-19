@@ -14,15 +14,17 @@ export function MenuList({ dishes, value, onChange }: MenuListProps) {
 		<ScrollArea className="w-full h-[600px]">
 			<ul className="divide-y divide-primary/40 p-2">
 				{dishes.map((dish) => (
-					<MenuItem
-						key={dish._id}
-						dish={dish}
-						value={value}
-						onChange={onChange}
-						quantity={
-							value.filter((item) => item === dish._id).length
-						}
-					/>
+					<li key={dish._id}>
+						<MenuItem
+							key={dish._id}
+							dish={dish}
+							value={value}
+							onChange={onChange}
+							quantity={
+								value.filter((item) => item === dish._id).length
+							}
+						/>
+					</li>
 				))}
 			</ul>
 		</ScrollArea>

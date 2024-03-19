@@ -125,7 +125,10 @@ export function MenuItem({ dish, value, onChange, quantity }: MenuItemProps) {
 	};
 
 	return (
-		<li className="grid grid-cols-[max-content_max-content_1fr_max-content] space-x-8 p-4 hover:bg-accent transition-colors rounded-md">
+		<label
+			className="grid grid-cols-[max-content_max-content_1fr_max-content] space-x-8 p-4 hover:bg-accent transition-colors rounded-md cursor-pointer"
+			htmlFor={dish._id}
+		>
 			<Checkbox
 				id={dish._id}
 				key={dish._id}
@@ -134,22 +137,17 @@ export function MenuItem({ dish, value, onChange, quantity }: MenuItemProps) {
 					return checked ? handleAddItem() : handleRemoveItem();
 				}}
 			/>
-			<label
-				className="aspect-video h-40 relative cursor-pointer"
-				htmlFor={dish._id}
-			>
+			<div className="aspect-video h-40 relative cursor-pointer">
 				<Image
 					src={dish.imageUrl}
 					alt="Dish image"
 					sizes="25vw"
 					fill
-					className="object-cover size-auto rounded-md"
+					className="object-cover rounded-md"
 				/>
-			</label>
+			</div>
 			<div className="flex flex-col space-y-4">
-				<label htmlFor={dish._id} className="cursor-pointer">
-					{dish.name}
-				</label>
+				<p className="cursor-pointer truncate">{dish.name}</p>
 				<p className="text-muted-foreground">
 					{formatPrice(dish.price)}
 				</p>
@@ -161,6 +159,6 @@ export function MenuItem({ dish, value, onChange, quantity }: MenuItemProps) {
 					handleRemoveItem={handleRemoveItem}
 				/>
 			</div>
-		</li>
+		</label>
 	);
 }

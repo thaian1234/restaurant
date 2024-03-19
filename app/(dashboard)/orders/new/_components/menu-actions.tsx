@@ -14,12 +14,13 @@ export function MenuAcitons({
 	handleRemoveItem,
 }: MenuAcitonsProps) {
 	return (
-		<div className="flex space-x-3 flex-row items-center">
+		<div className="flex space-x-2 flex-row items-center">
 			<Button
 				type="button"
 				size={"icon"}
 				className="size-7"
 				onClick={handleRemoveItem}
+				disabled={quantity === 0}
 			>
 				<MinusIcon className="size-4" />
 			</Button>

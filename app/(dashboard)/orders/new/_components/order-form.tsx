@@ -15,12 +15,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Preloaded, useMutation, usePreloadedQuery } from "convex/react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { useCart } from "@/hooks/use-cart";
 import { ListRestartIcon } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { MenuList, MenuListSkeleton } from "./menu-list";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Cart, CartSkeleton } from "./cart";
+import { useCartStore } from "@/hooks/use-cart-v2";
 
 interface OrderFormProps {
 	preloadTables: Preloaded<typeof api.tables.getTables>;
@@ -42,7 +43,7 @@ export function OrderForm({ preloadTables, preloadedDishes }: OrderFormProps) {
 	const router = useRouter();
 	const tables = usePreloadedQuery(preloadTables);
 	const dishes = usePreloadedQuery(preloadedDishes);
-	const { removeAll } = useCart((state) => state);
+	const { removeAll } = useCartStore((state) => state);
 	const createOrder = useMutation(api.orders.create);
 	const form = useForm<createOrderFields>({
 		resolver: zodResolver(createOrderSchema),
@@ -81,8 +82,11 @@ export function OrderForm({ preloadTables, preloadedDishes }: OrderFormProps) {
 
 	return (
 		<Form {...form}>
-			<form onSubmit={onSubmit} className="gap-y-8 grid grid-cols-3">
-				<div className="col-span-2 space-y-8">
+			<form
+				onSubmit={onSubmit}
+				className="gap-y-8 gap-x-4 grid grid-cols-1 lg:grid-cols-3 auto-rows-max grid-flow-row"
+			>
+				<div className="col-span-2">
 					<FormField
 						control={form.control}
 						name="tableId"
@@ -101,7 +105,9 @@ export function OrderForm({ preloadTables, preloadedDishes }: OrderFormProps) {
 							</FormItem>
 						)}
 					/>
+				</div>
 
+				<div className="col-span-2">
 					<FormField
 						control={form.control}
 						name="dishIds"
@@ -135,9 +141,19 @@ export function OrderForm({ preloadTables, preloadedDishes }: OrderFormProps) {
 						)}
 					/>
 				</div>
-				<div>{/* TODO: Cart */}</div>
 
-				<Button type="submit">Xác nhận</Button>
+				<div className="col-span-1">
+					<FormField
+						control={form.control}
+						name="dishIds"
+						render={({ field }) => (
+							<Cart
+								value={field.value}
+								onChange={field.onChange}
+							/>
+						)}
+					/>
+				</div>
 			</form>
 		</Form>
 	);
@@ -145,10 +161,15 @@ export function OrderForm({ preloadTables, preloadedDishes }: OrderFormProps) {
 
 export function OrderFormSkeleton() {
 	return (
-		<div className="gap-y-8 grid grid-cols-3">
-			<div className="col-span-2 space-y-8">
+		<div className="gap-y-8 gap-x-4 grid grid-cols-1 lg:grid-cols-3 auto-rows-max grid-flow-row">
+			<div className="col-span-2">
 				<Skeleton className="max-w-xl h-14" />
+			</div>
+			<div className="col-span-2">
 				<MenuListSkeleton />
+			</div>
+			<div className="col-span-1">
+				<CartSkeleton />
 			</div>
 		</div>
 	);
