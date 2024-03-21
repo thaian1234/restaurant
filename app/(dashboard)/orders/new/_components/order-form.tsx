@@ -22,6 +22,7 @@ import { MenuList, MenuListSkeleton } from "./menu-list";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Cart, CartSkeleton } from "./cart";
 import { useCartStore } from "@/hooks/use-cart-v2";
+import { startTransition } from "react";
 
 interface OrderFormProps {
 	preloadTables: Preloaded<typeof api.tables.getTables>;
@@ -42,8 +43,8 @@ type createOrderFields = z.infer<typeof createOrderSchema>;
 export function OrderForm({ preloadTables, preloadedDishes }: OrderFormProps) {
 	const router = useRouter();
 	const tables = usePreloadedQuery(preloadTables);
-	const dishes = usePreloadedQuery(preloadedDishes);
 	const { removeAll } = useCartStore((state) => state);
+	const dishes = usePreloadedQuery(preloadedDishes);
 	const createOrder = useMutation(api.orders.create);
 	const form = useForm<createOrderFields>({
 		resolver: zodResolver(createOrderSchema),
@@ -67,18 +68,16 @@ export function OrderForm({ preloadTables, preloadedDishes }: OrderFormProps) {
 	};
 
 	const onSubmit = form.handleSubmit((data) => {
-		const promise = createOrder(data);
-
-		toast.promise(promise, {
-			loading: "Đang tạo order...",
-			success: () => {
-				return "Tạo order thành công";
-			},
-			error: "Tạo order thất bại",
+		startTransition(() => {
+			createOrder(data)
+				.then(() => {
+					toast.success("Tạo order thành công");
+					handleRemoveAll();
+				})
+				.catch(() => toast.error("Tạo order thất bại"));
+			router.replace("/orders");
+			router.refresh();
 		});
-		
-		router.replace("/orders");
-		router.refresh();
 	});
 
 	return (
@@ -151,6 +150,7 @@ export function OrderForm({ preloadTables, preloadedDishes }: OrderFormProps) {
 							<Cart
 								value={field.value}
 								onChange={field.onChange}
+								onRemoveAll={handleRemoveAll}
 							/>
 						)}
 					/>

@@ -1,3 +1,4 @@
+import { DeleteAlert } from "@/components/delete-alert";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -13,14 +14,17 @@ import { Id } from "@/convex/_generated/dataModel";
 import { useCartStore } from "@/hooks/use-cart-v2";
 import { formatPrice } from "@/lib/format";
 import { ShoppingCartIcon, X } from "lucide-react";
-import { useShallow } from "zustand/react/shallow";
+import { useRouter } from "next/navigation";
+import { CartItem } from "./cart-item";
 
 interface CartProps {
 	value: string[];
 	onChange: (...value: any[]) => void;
+	onRemoveAll: () => void;
 }
 
-export function Cart({ value, onChange }: CartProps) {
+export function Cart({ value, onChange, onRemoveAll }: CartProps) {
+	const router = useRouter();
 	const { cartItems, removeItem } = useCartStore((state) => state);
 
 	const totalPrice = () => {
@@ -35,6 +39,11 @@ export function Cart({ value, onChange }: CartProps) {
 		onChange(value?.filter((value) => value !== id));
 	};
 
+	const handleRemoveAll = () => {
+		onRemoveAll();
+		router.replace("/orders");
+	};
+
 	return (
 		<Card className="h-[585px] border border-primary/60 rounded-lg flex-col flex">
 			<CardHeader className="">
@@ -43,38 +52,18 @@ export function Cart({ value, onChange }: CartProps) {
 					<span>Giỏ hàng</span>
 				</CardTitle>
 			</CardHeader>
+
 			<Separator />
 
 			<ScrollArea className="h-full">
 				<CardContent className="mt-3 flex-1 flex">
 					<ul className="flex-1">
 						{cartItems.map((item) => (
-							<li
+							<CartItem
 								key={item.item._id}
-								className="flex items-center space-x-4"
-							>
-								<p className="line-clamp-1">{item.item.name}</p>
-								<p className="flex-1 italic">
-									x{item.quantity}
-								</p>
-								<div className="flex items-center">
-									<p className="line-clamp-1">
-										{formatPrice(
-											item.item.price * item.quantity
-										)}
-									</p>
-									<Button
-										className="hover:bg-transparent hover:text-rose-400"
-										size={"icon"}
-										variant={"ghost"}
-										onClick={() =>
-											handleRemoveItem(item.item._id)
-										}
-									>
-										<X className="size-4" />
-									</Button>
-								</div>
-							</li>
+								item={item}
+								onRemoveItem={handleRemoveItem}
+							/>
 						))}
 					</ul>
 				</CardContent>
@@ -90,9 +79,15 @@ export function Cart({ value, onChange }: CartProps) {
 						</p>
 					</li>
 					<div className="flex flex-row justify-between space-x-2">
-						<Button variant={"outline"} type="button" size={"sm"}>
-							Hủy
-						</Button>
+						<DeleteAlert onSubmit={handleRemoveAll}>
+							<Button
+								variant={"outline"}
+								type="button"
+								size={"sm"}
+							>
+								Hủy
+							</Button>
+						</DeleteAlert>
 						<Button type="submit" size={"sm"}>
 							Xác nhận
 						</Button>

@@ -10,7 +10,7 @@ export const getOrderItems = query({
 
 			const orderItems = ctx
 				.table("order_items")
-				.order("asc")
+				.order("desc")
 				.map(async (item) => {
 					return {
 						...item,

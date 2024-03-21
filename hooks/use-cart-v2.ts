@@ -1,7 +1,7 @@
 import { Doc, Id } from "@/convex/_generated/dataModel";
 import { create } from "zustand";
 
-type CartItem = {
+export type CartItem = {
 	item: Doc<"dishes">;
 	quantity: number;
 };

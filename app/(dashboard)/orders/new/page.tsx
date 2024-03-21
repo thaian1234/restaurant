@@ -3,11 +3,10 @@ import { Hint } from "@/components/ui/hint";
 import { Separator } from "@/components/ui/separator";
 import { CornerDownLeft } from "lucide-react";
 import Link from "next/link";
-import { OrderForm, OrderFormSkeleton } from "./_components/order-form";
+import { OrderForm } from "./_components/order-form";
 import { preloadQuery } from "convex/nextjs";
 import { api } from "@/convex/_generated/api";
 import { getAuthToken } from "@/lib/auth";
-import { Suspense } from "react";
 
 export default async function CreateOrderPage() {
 	const token = await getAuthToken();
@@ -30,24 +29,12 @@ export default async function CreateOrderPage() {
 				<h2 className="text-3xl font-semibold tracking-tight first:mt-0">
 					Tạo Order
 				</h2>
-				<Link href={"/orders"} aria-label="Go to order">
-					<Hint label="Về order" side="top" align="center" asChild>
-						<Button variant={"ghost"} size={"icon"}>
-							<CornerDownLeft
-								className="size-8 p-2"
-								aria-label="Go to menu"
-							/>
-						</Button>
-					</Hint>
-				</Link>
 			</div>
 			<Separator />
-			<Suspense fallback={<OrderFormSkeleton />}>
-				<OrderForm
-					preloadTables={preloadTables}
-					preloadedDishes={preloadedDishes}
-				/>
-			</Suspense>
+			<OrderForm
+				preloadTables={preloadTables}
+				preloadedDishes={preloadedDishes}
+			/>
 		</section>
 	);
 }
