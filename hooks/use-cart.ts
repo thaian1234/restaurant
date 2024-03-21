@@ -118,7 +118,7 @@ export const useCart = create<CartState & Actions>((set, get) => ({
 
 				return true;
 			});
-			
+
 			return {
 				cartItems: updatedCart,
 			};

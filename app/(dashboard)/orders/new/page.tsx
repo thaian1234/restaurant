@@ -3,10 +3,11 @@ import { Hint } from "@/components/ui/hint";
 import { Separator } from "@/components/ui/separator";
 import { CornerDownLeft } from "lucide-react";
 import Link from "next/link";
-import { OrderForm } from "./_components/order-form";
+import { OrderForm, OrderFormSkeleton } from "./_components/order-form";
 import { preloadQuery } from "convex/nextjs";
 import { api } from "@/convex/_generated/api";
 import { getAuthToken } from "@/lib/auth";
+import { Suspense } from "react";
 
 export default async function CreateOrderPage() {
 	const token = await getAuthToken();
@@ -41,10 +42,12 @@ export default async function CreateOrderPage() {
 				</Link>
 			</div>
 			<Separator />
-			<OrderForm
-				preloadTables={preloadTables}
-				preloadedDishes={preloadedDishes}
-			/>
+			<Suspense fallback={<OrderFormSkeleton />}>
+				<OrderForm
+					preloadTables={preloadTables}
+					preloadedDishes={preloadedDishes}
+				/>
+			</Suspense>
 		</section>
 	);
 }

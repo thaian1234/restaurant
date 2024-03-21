@@ -1,7 +1,7 @@
 "use client";
 
 import { Logo } from "@/components/logo";
-import { Home, ListOrdered, SoupIcon } from "lucide-react";
+import { CalendarClock, Home, ListOrdered, SoupIcon } from "lucide-react";
 import { Item } from "./item";
 
 export function Sidebar() {
@@ -20,6 +20,11 @@ export function Sidebar() {
 			label: "Orders",
 			icon: ListOrdered,
 			href: "/orders",
+		},
+		{
+			label: "Waitlist",
+			icon: CalendarClock,
+			href: "/waitlist",
 		},
 	];
 

@@ -17,6 +17,7 @@ import type {
 import type * as dishes from "../dishes.js";
 import type * as functions from "../functions.js";
 import type * as orders from "../orders.js";
+import type * as order_items from "../order_items.js";
 import type * as tables from "../tables.js";
 import type * as types from "../types.js";
 
@@ -32,6 +33,7 @@ declare const fullApi: ApiFromModules<{
   dishes: typeof dishes;
   functions: typeof functions;
   orders: typeof orders;
+  order_items: typeof order_items;
   tables: typeof tables;
   types: typeof types;
 }>;

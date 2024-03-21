@@ -56,11 +56,14 @@ export const getOrders = query({
 			const user = await ctx.auth.getUserIdentity();
 			if (!user) throw new Error("Unauthorized");
 
-			const orders = await ctx.table("orders").map(async (order) => ({
-				...order,
-				tableName: (await order.edgeX("table")).name,
-				createdBy: order.username,
-			}));
+			const orders = await ctx
+				.table("orders")
+				.order("desc")
+				.map(async (order) => ({
+					...order,
+					tableName: (await order.edgeX("table")).name,
+					createdBy: order.username,
+				}));
 
 			return orders;
 		} catch (error) {

@@ -72,12 +72,13 @@ export function OrderForm({ preloadTables, preloadedDishes }: OrderFormProps) {
 		toast.promise(promise, {
 			loading: "Đang tạo order...",
 			success: () => {
-				router.replace("/orders");
-				router.refresh();
 				return "Tạo order thành công";
 			},
 			error: "Tạo order thất bại",
 		});
+		
+		router.replace("/orders");
+		router.refresh();
 	});
 
 	return (

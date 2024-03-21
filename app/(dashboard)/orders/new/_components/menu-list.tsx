@@ -20,9 +20,6 @@ export function MenuList({ dishes, value, onChange }: MenuListProps) {
 							dish={dish}
 							value={value}
 							onChange={onChange}
-							quantity={
-								value.filter((item) => item === dish._id).length
-							}
 						/>
 					</li>
 				))}

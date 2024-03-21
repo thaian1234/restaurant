@@ -2,7 +2,7 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Id } from "@/convex/_generated/dataModel";
+import { Doc, Id } from "@/convex/_generated/dataModel";
 import { ColumnDef } from "@tanstack/react-table";
 import { format, formatDistance, subDays } from "date-fns";
 import { vi } from "date-fns/locale/vi";
@@ -10,12 +10,7 @@ import { ArrowUpDown } from "lucide-react";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type OrderColumn = {
-	_id: Id<"orders">;
-	_creationTime: number;
-	isPaid: boolean;
-	userId: string;
-	tableId: Id<"tables">;
+export type OrderColumn = Doc<"orders"> & {
 	createdBy: string;
 	tableName: string;
 };
@@ -47,6 +42,7 @@ export const columns: ColumnDef<OrderColumn>[] = [
 				</p>
 			);
 		},
+		sortingFn: "datetime",
 	},
 	{
 		accessorKey: "tableId",

@@ -28,11 +28,15 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
+	title?: string;
+	searchKey: string;
 }
 
 export function DataTable<TData, TValue>({
 	columns,
 	data,
+	title,
+	searchKey,
 }: DataTableProps<TData, TValue>) {
 	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] =
@@ -41,6 +45,7 @@ export function DataTable<TData, TValue>({
 	const table = useReactTable({
 		data,
 		columns,
+		sortDescFirst: true,
 		getCoreRowModel: getCoreRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
 		onSortingChange: setSorting,
@@ -55,17 +60,18 @@ export function DataTable<TData, TValue>({
 
 	return (
 		<div>
-			<div className="flex justify-end items-center py-4">
+			<div className="flex justify-between items-center py-4">
+				<p className="text-lg font-medium">{title}</p>
 				<Input
 					placeholder="Tìm kiếm ..."
 					value={
 						(table
-							.getColumn("createdBy")
+							.getColumn(searchKey)
 							?.getFilterValue() as string) ?? ""
 					}
 					onChange={(event) =>
 						table
-							.getColumn("createdBy")
+							.getColumn(searchKey)
 							?.setFilterValue(event.target.value)
 					}
 					className="max-w-sm"

@@ -34,7 +34,7 @@ export default async function OrdersPage() {
 				</Link>
 			</div>
 			<Separator />
-			{orders && <DataTable data={orders} columns={columns} />}
+			<DataTable data={orders} columns={columns} searchKey="createdBy" />
 		</section>
 	);
 }

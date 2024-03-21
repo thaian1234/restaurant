@@ -4,6 +4,7 @@ import { defineEnt, defineEntSchema, getEntDefinitions } from "convex-ents";
 export enum OrderItemStatus {
 	inProgress = "Đang làm",
 	complete = "Hoàn thành",
+	delivered = "Đã giao",
 }
 
 const schema = defineEntSchema({
@@ -25,7 +26,8 @@ const schema = defineEntSchema({
 		quantity: v.number(),
 		status: v.union(
 			v.literal(OrderItemStatus.inProgress),
-			v.literal(OrderItemStatus.complete)
+			v.literal(OrderItemStatus.complete),
+			v.literal(OrderItemStatus.delivered)
 		),
 	})
 		.edge("order")

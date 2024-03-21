@@ -1,18 +1,18 @@
 "use client";
 
+import Image from "next/image";
+
 import { Checkbox } from "@/components/ui/checkbox";
 import { Doc } from "@/convex/_generated/dataModel";
-import { useCart } from "@/hooks/use-cart";
-import Image from "next/image";
 import { MenuAcitons } from "./menu-actions";
 import { formatPrice } from "@/lib/format";
 import { useCartStore } from "@/hooks/use-cart-v2";
+import { useShallow } from "zustand/react/shallow";
 
 interface MenuItemProps {
 	dish: Doc<"dishes">;
 	value: string[];
 	onChange: (...value: any[]) => void;
-	quantity: number;
 }
 
 // export function MenuItem({ dish, value, onChange, quantity }: MenuItemProps) {
@@ -87,9 +87,18 @@ interface MenuItemProps {
 // 	);
 // }
 
-export function MenuItem({ dish, value, onChange, quantity }: MenuItemProps) {
+export function MenuItem({ dish, value, onChange }: MenuItemProps) {
 	const { addItem, decreaseQuantity, removeItem } = useCartStore(
-		(state) => state
+		useShallow((state) => ({
+			addItem: state.addItem,
+			decreaseQuantity: state.decreaseQuantity,
+			removeItem: state.removeItem,
+		}))
+	);
+
+	const quantity = value.reduce(
+		(acc, item) => (item === dish._id ? acc + 1 : acc),
+		0
 	);
 
 	const handleAddItem = () => {
@@ -98,28 +107,15 @@ export function MenuItem({ dish, value, onChange, quantity }: MenuItemProps) {
 	};
 
 	const handleRemoveItem = () => {
-		if (quantity === 1) {
-			removeItem(dish._id);
-		}
+		const itemIndex = value.indexOf(dish._id);
+		if (itemIndex === -1) return;
 
 		if (quantity === 0) {
-			onChange(value?.filter((value) => value !== dish._id));
+			removeItem(dish._id);
 		} else {
-			// Lấy danh sách id món ăn hiện có trong giỏ hàng
-			const cartItemIds = value.slice();
-
-			// Tìm vị trí của id món ăn cần giảm trong danh sách
-			const itemIndex = cartItemIds.indexOf(dish._id);
-
-			// Nếu món ăn không có trong giỏ hàng, bỏ qua
-			if (itemIndex === -1) {
-				return;
-			}
-
-			// Xóa id món ăn khỏi danh sách
-			cartItemIds.splice(itemIndex, 1);
-			//Xóa đi một món ăn trong giỏ hàng
-			onChange(cartItemIds);
+			onChange(
+				value.slice(0, itemIndex).concat(value.slice(itemIndex + 1))
+			);
 			decreaseQuantity(dish._id);
 		}
 	};
@@ -132,7 +128,7 @@ export function MenuItem({ dish, value, onChange, quantity }: MenuItemProps) {
 			<Checkbox
 				id={dish._id}
 				key={dish._id}
-				checked={value?.includes(dish._id) || quantity >= 1}
+				checked={value?.includes(dish._id) || quantity > 0}
 				onCheckedChange={(checked) => {
 					return checked ? handleAddItem() : handleRemoveItem();
 				}}
@@ -143,6 +139,9 @@ export function MenuItem({ dish, value, onChange, quantity }: MenuItemProps) {
 					alt="Dish image"
 					sizes="25vw"
 					fill
+					loading="lazy"
+					placeholder="blur"
+					blurDataURL="data:image/png;base64,[IMAGE_CODE_FROM_PNG_PIXEL]"
 					className="object-cover rounded-md"
 				/>
 			</div>

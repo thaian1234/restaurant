@@ -13,6 +13,7 @@ import { Id } from "@/convex/_generated/dataModel";
 import { useCartStore } from "@/hooks/use-cart-v2";
 import { formatPrice } from "@/lib/format";
 import { ShoppingCartIcon, X } from "lucide-react";
+import { useShallow } from "zustand/react/shallow";
 
 interface CartProps {
 	value: string[];
@@ -28,6 +29,7 @@ export function Cart({ value, onChange }: CartProps) {
 			return acc;
 		}, 0);
 	};
+
 	const handleRemoveItem = (id: Id<"dishes">) => {
 		removeItem(id);
 		onChange(value?.filter((value) => value !== id));
@@ -52,7 +54,9 @@ export function Cart({ value, onChange }: CartProps) {
 								className="flex items-center space-x-4"
 							>
 								<p className="line-clamp-1">{item.item.name}</p>
-								<p className="flex-1">x{item.quantity}</p>
+								<p className="flex-1 italic">
+									x{item.quantity}
+								</p>
 								<div className="flex items-center">
 									<p className="line-clamp-1">
 										{formatPrice(
