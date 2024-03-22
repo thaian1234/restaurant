@@ -60,7 +60,7 @@ export function OrderForm({ preloadTables, preloadedDishes }: OrderFormProps) {
 				value: table._id,
 				label: table.name,
 			};
-		}) || [];
+		}) ?? [];
 
 	const handleRemoveAll = () => {
 		removeAll();
@@ -73,17 +73,24 @@ export function OrderForm({ preloadTables, preloadedDishes }: OrderFormProps) {
 				.then(() => {
 					toast.success("Tạo order thành công");
 					handleRemoveAll();
+					router.replace("/orders");
 				})
 				.catch(() => toast.error("Tạo order thất bại"));
-			router.replace("/orders");
-			router.refresh();
 		});
 	});
 
 	return (
 		<Form {...form}>
 			<form
-				onSubmit={onSubmit}
+				onSubmit={(e) => {
+					e.preventDefault();
+					if (!form.formState.isValid) {
+						toast.error("Chưa chọn bàn ăn hoặc món ăn", {
+							closeButton: true,
+						});
+					}
+					onSubmit();
+				}}
 				className="gap-y-8 gap-x-4 grid grid-cols-1 lg:grid-cols-3 auto-rows-max grid-flow-row"
 			>
 				<div className="col-span-2">
@@ -142,7 +149,7 @@ export function OrderForm({ preloadTables, preloadedDishes }: OrderFormProps) {
 					/>
 				</div>
 
-				<div className="col-span-1">
+				<div className="lg:col-span-1 col-span-2">
 					<FormField
 						control={form.control}
 						name="dishIds"

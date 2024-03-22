@@ -12,10 +12,6 @@ import { OrderItemStatus } from "@/convex/schema";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-// export interface OrderItemColumn extends Doc<"order_items"> {
-// 	dishName: string;
-// 	tableName: string;
-// }
 
 export type OrderItemColumn = Doc<"order_items"> & {
 	dishName: string;

@@ -3,6 +3,7 @@ import { mutation, query } from "./functions";
 import { Doc, Id } from "./_generated/dataModel";
 import { OrderItemStatus } from "./schema";
 import { internal } from "./_generated/api";
+import { cache } from "react";
 
 type orderField = Omit<Doc<"order_items">, "_id" | "_creationTime">;
 
@@ -50,24 +51,26 @@ export const create = mutation({
 	},
 });
 
-export const getOrders = query({
-	async handler(ctx) {
-		try {
-			const user = await ctx.auth.getUserIdentity();
-			if (!user) throw new Error("Unauthorized");
+export const getOrders = cache(
+	query({
+		async handler(ctx) {
+			try {
+				const user = await ctx.auth.getUserIdentity();
+				if (!user) throw new Error("Unauthorized");
 
-			const orders = await ctx
-				.table("orders")
-				.order("desc")
-				.map(async (order) => ({
-					...order,
-					tableName: (await order.edgeX("table")).name,
-					createdBy: order.username,
-				}));
+				const orders = await ctx
+					.table("orders")
+					.order("desc")
+					.map(async (order) => ({
+						...order,
+						tableName: (await order.edgeX("table")).name,
+						createdBy: order.username,
+					}));
 
-			return orders;
-		} catch (error) {
-			return null;
-		}
-	},
-});
+				return orders;
+			} catch (error) {
+				return null;
+			}
+		},
+	})
+);

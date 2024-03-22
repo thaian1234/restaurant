@@ -8,6 +8,7 @@ import { PlusCircleIcon } from "lucide-react";
 import Link from "next/link";
 import { columns } from "./_components/columns";
 import { redirect } from "next/navigation";
+import { Client } from "./_components/client";
 
 export default async function OrdersPage() {
 	const token = await getAuthToken();
@@ -26,7 +27,7 @@ export default async function OrdersPage() {
 				<h2 className="text-3xl font-semibold tracking-tight first:mt-0">
 					Danh sách order
 				</h2>
-				<Link href={"/orders/new"}>
+				<Link href={"/orders/new"} prefetch={false}>
 					<Button>
 						<PlusCircleIcon className="size-4 mr-2" />
 						Tạo order
@@ -34,7 +35,7 @@ export default async function OrdersPage() {
 				</Link>
 			</div>
 			<Separator />
-			<DataTable data={orders} columns={columns} searchKey="createdBy" />
+			<Client preloadedOrders={preloadedOrders} />
 		</section>
 	);
 }

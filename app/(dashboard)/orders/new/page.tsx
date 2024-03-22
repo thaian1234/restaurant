@@ -1,8 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { Hint } from "@/components/ui/hint";
 import { Separator } from "@/components/ui/separator";
-import { CornerDownLeft } from "lucide-react";
-import Link from "next/link";
 import { OrderForm } from "./_components/order-form";
 import { preloadQuery } from "convex/nextjs";
 import { api } from "@/convex/_generated/api";

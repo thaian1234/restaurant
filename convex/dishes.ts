@@ -1,6 +1,7 @@
 import { v } from "convex/values";
 import { mutation, query } from "./functions";
 import { Id } from "./_generated/dataModel";
+import { cache } from "react";
 
 export const create = mutation({
 	args: {
@@ -24,37 +25,43 @@ export const create = mutation({
 	},
 });
 
-export const getDishes = query({
-	async handler(ctx) {
-		try {
-			const user = await ctx.auth.getUserIdentity();
-			if (!user) throw new Error("Unauthorized");
+export const getDishes = cache(
+	query({
+		async handler(ctx) {
+			try {
+				const user = await ctx.auth.getUserIdentity();
+				if (!user) throw new Error("Unauthorized");
 
-			const dishes = await ctx.table("dishes");
+				const dishes = await ctx.table("dishes");
 
-			return dishes;
-		} catch (error) {
-			return null;
-		}
-	},
-});
+				return dishes;
+			} catch (error) {
+				return null;
+			}
+		},
+	})
+);
 
-export const getDishById = query({
-	args: { id: v.string() },
-	async handler(ctx, args) {
-		try {
-			const user = await ctx.auth.getUserIdentity();
-			if (!user) throw new Error("Unauthorized");
+export const getDishById = cache(
+	query({
+		args: { id: v.string() },
+		async handler(ctx, args) {
+			try {
+				const user = await ctx.auth.getUserIdentity();
+				if (!user) throw new Error("Unauthorized");
 
-			const dish = await ctx.table("dishes").get(args.id as Id<"dishes">);
-			if (!dish) return null;
+				const dish = await ctx
+					.table("dishes")
+					.get(args.id as Id<"dishes">);
+				if (!dish) return null;
 
-			return dish;
-		} catch (error) {
-			return null;
-		}
-	},
-});
+				return dish;
+			} catch (error) {
+				return null;
+			}
+		},
+	})
+);
 
 export const update = mutation({
 	args: {
