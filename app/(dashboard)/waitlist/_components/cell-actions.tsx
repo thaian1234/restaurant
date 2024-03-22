@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Hint } from "@/components/ui/hint";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { OrderItemStatus } from "@/convex/schema";
@@ -37,34 +38,40 @@ export function CellActions({ id, currentStatus }: CellActionsProps) {
 	return (
 		<>
 			{inProgress && (
-				<Button
-					disabled={isPending}
-					variant={"ghost"}
-					size={"icon"}
-					onClick={() => handleUpdateStatus(OrderItemStatus.complete)}
-				>
-					{!isPending ? (
-						<ArrowUpCircle />
-					) : (
-						<Loader2 className="animate-spin" />
-					)}
-				</Button>
+				<Hint label="Nấu xong" asChild side="right">
+					<Button
+						disabled={isPending}
+						variant={"ghost"}
+						size={"icon"}
+						onClick={() =>
+							handleUpdateStatus(OrderItemStatus.complete)
+						}
+					>
+						{!isPending ? (
+							<ArrowUpCircle />
+						) : (
+							<Loader2 className="animate-spin" />
+						)}
+					</Button>
+				</Hint>
 			)}
 			{complete && (
-				<Button
-					disabled={isPending}
-					variant={"ghost"}
-					size={"icon"}
-					onClick={() =>
-						handleUpdateStatus(OrderItemStatus.delivered)
-					}
-				>
-					{!isPending ? (
-						<CheckCircle2Icon />
-					) : (
-						<Loader2 className="animate-spin" />
-					)}
-				</Button>
+				<Hint asChild side="right" label="Đã giao">
+					<Button
+						disabled={isPending}
+						variant={"ghost"}
+						size={"icon"}
+						onClick={() =>
+							handleUpdateStatus(OrderItemStatus.delivered)
+						}
+					>
+						{!isPending ? (
+							<CheckCircle2Icon />
+						) : (
+							<Loader2 className="animate-spin" />
+						)}
+					</Button>
+				</Hint>
 			)}
 		</>
 	);

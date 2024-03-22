@@ -1,7 +1,7 @@
 import { Separator } from "@/components/ui/separator";
 import { api } from "@/convex/_generated/api";
 import { getAuthToken } from "@/lib/auth";
-import { preloadedQueryResult, preloadQuery } from "convex/nextjs";
+import { preloadQuery } from "convex/nextjs";
 import { redirect } from "next/navigation";
 import { Client } from "./_components/client";
 
@@ -12,9 +12,6 @@ export default async function WaitListPage() {
 		{},
 		{ token }
 	);
-	const orderItems = preloadedQueryResult(preloadedOrderItems);
-
-	if (!orderItems) redirect("/");
 
 	return (
 		<section className="flex flex-col space-y-4">

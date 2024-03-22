@@ -30,7 +30,7 @@ export function MenuList({ dishes, value, onChange }: MenuListProps) {
 
 export function MenuListSkeleton() {
 	return (
-		<div className="w-full h-[600px]">
+		<div className="w-full h-[650px]">
 			<Skeleton className="size-full" />
 		</div>
 	);

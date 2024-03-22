@@ -43,7 +43,7 @@ type createOrderFields = z.infer<typeof createOrderSchema>;
 export function OrderForm({ preloadTables, preloadedDishes }: OrderFormProps) {
 	const router = useRouter();
 	const tables = usePreloadedQuery(preloadTables);
-	const { removeAll } = useCartStore((state) => state);
+	const removeAll = useCartStore((state) => state.removeAll);
 	const dishes = usePreloadedQuery(preloadedDishes);
 	const createOrder = useMutation(api.orders.create);
 	const form = useForm<createOrderFields>({
@@ -158,6 +158,7 @@ export function OrderForm({ preloadTables, preloadedDishes }: OrderFormProps) {
 								value={field.value}
 								onChange={field.onChange}
 								onRemoveAll={handleRemoveAll}
+								onSubmit={onSubmit}
 							/>
 						)}
 					/>

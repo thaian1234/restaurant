@@ -16,16 +16,34 @@ import { formatPrice } from "@/lib/format";
 import { ShoppingCartIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { CartItem } from "./cart-item";
+import { ConfirmAlert } from "@/components/confirm-alert";
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface CartProps {
 	value: string[];
 	onChange: (...value: any[]) => void;
 	onRemoveAll: () => void;
+	onSubmit: () => void;
 }
 
-export function Cart({ value, onChange, onRemoveAll }: CartProps) {
+export function Cart({ value, onChange, onRemoveAll, onSubmit }: CartProps) {
 	const router = useRouter();
-	const { cartItems, removeItem } = useCartStore((state) => state);
+	const { cartItems, removeItem } = useCartStore((state) => {
+		return {
+			cartItems: state.cartItems,
+			removeItem: state.removeItem,
+		};
+	});
 
 	const totalPrice = () => {
 		return cartItems.reduce((acc, currItem) => {
@@ -83,9 +101,11 @@ export function Cart({ value, onChange, onRemoveAll }: CartProps) {
 							Hủy
 						</Button>
 					</DeleteAlert>
-					<Button type="submit" size={"sm"}>
-						Xác nhận
-					</Button>
+					<ConfirmAlert label="tạo order" onSubmit={onSubmit}>
+						<Button size={"sm"} type="button">
+							Xác nhận
+						</Button>
+					</ConfirmAlert>
 				</div>
 			</CardFooter>
 		</Card>
