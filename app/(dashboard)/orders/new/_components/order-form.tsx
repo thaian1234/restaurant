@@ -46,6 +46,7 @@ export function OrderForm({ preloadTables, preloadedDishes }: OrderFormProps) {
 	const removeAll = useCartStore((state) => state.removeAll);
 	const dishes = usePreloadedQuery(preloadedDishes);
 	const createOrder = useMutation(api.orders.create);
+
 	const form = useForm<createOrderFields>({
 		resolver: zodResolver(createOrderSchema),
 		defaultValues: {
@@ -89,6 +90,7 @@ export function OrderForm({ preloadTables, preloadedDishes }: OrderFormProps) {
 							closeButton: true,
 						});
 					}
+
 					onSubmit();
 				}}
 				className="gap-y-8 gap-x-4 grid grid-cols-1 lg:grid-cols-3 auto-rows-max grid-flow-row"

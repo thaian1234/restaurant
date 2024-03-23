@@ -1,4 +1,4 @@
-import { v } from "convex/values";
+import { Infer, v } from "convex/values";
 import { defineEnt, defineEntSchema, getEntDefinitions } from "convex-ents";
 
 export enum OrderItemStatus {
@@ -6,6 +6,12 @@ export enum OrderItemStatus {
 	complete = "Hoàn thành",
 	delivered = "Đã giao",
 }
+
+export const statusType = v.union(
+	v.literal(OrderItemStatus.inProgress),
+	v.literal(OrderItemStatus.complete),
+	v.literal(OrderItemStatus.delivered)
+);
 
 const schema = defineEntSchema({
 	dishes: defineEnt({
@@ -24,11 +30,7 @@ const schema = defineEntSchema({
 
 	order_items: defineEnt({
 		quantity: v.number(),
-		status: v.union(
-			v.literal(OrderItemStatus.inProgress),
-			v.literal(OrderItemStatus.complete),
-			v.literal(OrderItemStatus.delivered)
-		),
+		status: statusType,
 	})
 		.edge("order")
 		.edge("dishe", { field: "dishId" }),
