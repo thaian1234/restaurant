@@ -1,3 +1,4 @@
+import { AuthUser } from "./_components/auth-user";
 import { Header } from "./_components/header";
 import { Sidebar } from "./_components/sidebar";
 import { Toolbox } from "./_components/toolbox";
@@ -10,6 +11,7 @@ export default function DashboardLayout({
 }>) {
 	return (
 		<>
+			<AuthUser />
 			<Sidebar />
 			<section className="flex-1 flex-col pl-[250px] relative">
 				<Header />

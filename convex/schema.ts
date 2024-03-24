@@ -22,11 +22,10 @@ const schema = defineEntSchema({
 
 	orders: defineEnt({
 		isPaid: v.boolean(),
-		userId: v.string(),
-		username: v.string(),
 	})
 		.edges("order_items", { ref: true })
-		.edge("table"),
+		.edge("table")
+		.edge("user"),
 
 	order_items: defineEnt({
 		quantity: v.number(),
@@ -38,6 +37,12 @@ const schema = defineEntSchema({
 	tables: defineEnt({
 		name: v.string(),
 	}).edges("orders", { ref: true }),
+
+	users: defineEnt({
+		username: v.string(),
+	})
+		.field("tokenIdentifier", v.string(), { unique: true })
+		.edges("orders", { ref: true }),
 });
 
 export default schema;

@@ -23,6 +23,7 @@ export const getTableById = query({
 	async handler(ctx, args) {
 		try {
 			const user = await ctx.auth.getUserIdentity();
+
 			if (!user) throw new Error("Unauthorized");
 
 			const table = await ctx.table("tables").getX(args.id);

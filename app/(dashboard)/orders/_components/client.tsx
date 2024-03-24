@@ -13,7 +13,7 @@ interface ClientProps {
 export function Client({ preloadedOrders }: ClientProps) {
 	const orders = usePreloadedQuery(preloadedOrders);
 
-	if (!orders) return redirectToSignIn();
+	if (!orders) return null;
 
 	return <DataTable data={orders} columns={columns} searchKey="createdBy" />;
 }

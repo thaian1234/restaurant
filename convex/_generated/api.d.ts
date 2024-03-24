@@ -20,6 +20,7 @@ import type * as orders from "../orders.js";
 import type * as order_items from "../order_items.js";
 import type * as tables from "../tables.js";
 import type * as types from "../types.js";
+import type * as users from "../users.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -36,6 +37,7 @@ declare const fullApi: ApiFromModules<{
   order_items: typeof order_items;
   tables: typeof tables;
   types: typeof types;
+  users: typeof users;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,
