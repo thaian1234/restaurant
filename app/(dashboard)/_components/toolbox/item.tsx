@@ -1,4 +1,4 @@
-import { ToolboxMenu } from "@/components/toolbox-menu";
+import { ToolboxMenu } from "@/components/right-sidebar/toolbox-menu";
 import { Hint } from "@/components/ui/hint";
 import { LucideIcon } from "lucide-react";
 

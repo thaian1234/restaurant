@@ -4,7 +4,6 @@ import { DataTable } from "@/components/data-table";
 import { api } from "@/convex/_generated/api";
 import { Preloaded, usePreloadedQuery } from "convex/react";
 import { columns } from "./columns";
-import { redirectToSignIn } from "@clerk/nextjs";
 import { OrderItemStatus } from "@/convex/schema";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -15,7 +14,7 @@ interface ClientProps {
 export function Client({ preloadedOrderItems }: ClientProps) {
 	const orderItems = usePreloadedQuery(preloadedOrderItems);
 
-	if (!orderItems) return redirectToSignIn();
+	if (!orderItems) return null;
 
 	const orderItemsInProgress = orderItems.filter(
 		(item) => item.status === OrderItemStatus.inProgress

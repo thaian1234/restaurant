@@ -3,9 +3,11 @@ import {
 	Sheet,
 	SheetContent,
 	SheetDescription,
+	SheetHeader,
 	SheetTitle,
 	SheetTrigger,
-} from "./ui/sheet";
+} from "../ui/sheet";
+import { ListCardDish } from "./list-card-dish";
 
 interface ToolboxMenuProps {
 	children: ReactNode;
@@ -16,10 +18,12 @@ export function ToolboxMenu({ children }: ToolboxMenuProps) {
 		<Sheet>
 			<SheetTrigger>{children}</SheetTrigger>
 			<SheetContent>
-				<SheetTitle>Danh sách Waitlist</SheetTitle>
-				<SheetDescription>
-					{/* TODO: Load danh sach order item */}
-				</SheetDescription>
+				<SheetHeader>
+					<SheetTitle>Danh sách Waitlist</SheetTitle>
+				</SheetHeader>
+				<div className="mt-6">
+					<ListCardDish />
+				</div>
 			</SheetContent>
 		</Sheet>
 	);
