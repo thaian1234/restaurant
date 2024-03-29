@@ -33,7 +33,7 @@ export function Toolbox() {
 	];
 
 	return (
-		<aside className="hidden fixed border border-primary/60 right-4 px-3 py-4 top-1/3 lg:flex flex-col space-y-3 rounded-lg">
+		<aside className="hidden fixed border border-primary/60 right-4 px-3 py-4 top-1/3 xl:flex flex-col space-y-3 rounded-lg">
 			{items.map((item, i) => (
 				<Item
 					key={i}

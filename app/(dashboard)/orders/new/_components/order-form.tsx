@@ -61,7 +61,7 @@ export function OrderForm({ preloadTables, preloadedDishes }: OrderFormProps) {
 				value: table._id,
 				label: table.name,
 			};
-		}) ?? [];
+		}) || [];
 
 	const handleRemoveAll = () => {
 		removeAll();
@@ -70,6 +70,7 @@ export function OrderForm({ preloadTables, preloadedDishes }: OrderFormProps) {
 
 	const onSubmit = form.handleSubmit((data) => {
 		startTransition(() => {
+			// Tạo order
 			createOrder(data)
 				.then(() => {
 					toast.success("Tạo order thành công");
