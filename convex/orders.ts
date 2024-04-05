@@ -5,14 +5,15 @@ import { createOrderItems } from "./order_items";
 import { MutationCtx } from "./types";
 import { getCurrentUser } from "./users";
 
-async function createEmptyOrder(ctx: MutationCtx, tableId: string) {
-	const user = await getCurrentUser(ctx);
-	if (!user) return null;
-
+async function createEmptyOrder(
+	ctx: MutationCtx,
+	tableId: string,
+	userId: Id<"users">
+) {
 	const orderId = await ctx.table("orders").insert({
 		isPaid: false,
 		tableId: tableId as Id<"tables">,
-		userId: user._id,
+		userId: userId,
 	});
 
 	if (!orderId) return null;
@@ -20,23 +21,22 @@ async function createEmptyOrder(ctx: MutationCtx, tableId: string) {
 	return orderId;
 }
 
-export const create = mutation({
+export const createOrder = mutation({
 	args: {
 		tableId: v.string(),
 		dishIds: v.array(v.string()),
 	},
 	async handler(ctx, args) {
+		//Lấy thông tin user tạo order
 		const user = await getCurrentUser(ctx);
 		if (!user) throw new Error("Unauthorized");
 
 		// Tạo order rỗng
-		const orderId = await createEmptyOrder(ctx, args.tableId);
+		const orderId = await createEmptyOrder(ctx, args.tableId, user._id);
 		if (!orderId) throw new Error("Tạo order thất bại");
 
 		// Tạo ra các orderItems dựa vào orderId vừa tạo và các giá trị từ dishIds
 		await createOrderItems(ctx, orderId, args.dishIds);
-
-		return orderId;
 	},
 });
 

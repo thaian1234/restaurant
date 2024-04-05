@@ -3,7 +3,7 @@
 import { DataTable } from "@/components/data-table";
 import { api } from "@/convex/_generated/api";
 import { Preloaded, usePreloadedQuery } from "convex/react";
-import { columns } from "./columns";
+import { columns, OrderItemColumn } from "./columns";
 import { OrderItemStatus } from "@/convex/schema";
 import { Skeleton } from "@/components/ui/skeleton";
 

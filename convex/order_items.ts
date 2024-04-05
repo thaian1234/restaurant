@@ -93,5 +93,4 @@ export async function createOrderItems(
 
 	if (!orderItems) throw new Error("Thêm món ăn thất bại");
 
-	return orderItems;
 }

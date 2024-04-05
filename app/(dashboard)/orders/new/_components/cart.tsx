@@ -17,17 +17,6 @@ import { ShoppingCartIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { CartItem } from "./cart-item";
 import { ConfirmAlert } from "@/components/confirm-alert";
-import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-	AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 
 interface CartProps {
 	value: string[];
