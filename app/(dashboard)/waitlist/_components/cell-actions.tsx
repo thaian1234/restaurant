@@ -16,15 +16,15 @@ interface CellActionsProps {
 }
 
 export function CellActions({ id, currentStatus }: CellActionsProps) {
-	const updatedStatus = useMutation(api.order_items.updateStatus);
+	const updateStatus = useMutation(api.order_items.updateStatus);
 	const [isPending, startTransition] = useTransition();
 
 	const inProgress = currentStatus === OrderItemStatus.inProgress;
 	const complete = currentStatus === OrderItemStatus.complete;
 
-	const handleUpdateStatus = (status: OrderItemStatus) => {
+	const onUpdateStatus = (status: OrderItemStatus) => {
 		startTransition(() => {
-			updatedStatus({
+			updateStatus({
 				id,
 				status,
 			})
@@ -43,9 +43,7 @@ export function CellActions({ id, currentStatus }: CellActionsProps) {
 						disabled={isPending}
 						variant={"ghost"}
 						size={"icon"}
-						onClick={() =>
-							handleUpdateStatus(OrderItemStatus.complete)
-						}
+						onClick={() => onUpdateStatus(OrderItemStatus.complete)}
 					>
 						{!isPending ? (
 							<ArrowUpCircle />
@@ -62,7 +60,7 @@ export function CellActions({ id, currentStatus }: CellActionsProps) {
 						variant={"ghost"}
 						size={"icon"}
 						onClick={() =>
-							handleUpdateStatus(OrderItemStatus.delivered)
+							onUpdateStatus(OrderItemStatus.delivered)
 						}
 					>
 						{!isPending ? (

@@ -2,7 +2,8 @@ import { v } from "convex/values";
 import { mutation, query } from "./functions";
 import { OrderItemStatus, statusType } from "./schema";
 import { Doc, Id } from "./_generated/dataModel";
-import { MutationCtx } from "./types";
+import { MutationCtx, QueryCtx } from "./types";
+import { getCurrentUser } from "./users";
 
 export type orderItemField = Omit<Doc<"order_items">, "_id" | "_creationTime">;
 
@@ -26,6 +27,12 @@ function formattedOrderItems(
 	}, [] as orderItemField[]);
 
 	return formattedValues;
+}
+
+async function findOrderItemById(ctx: MutationCtx, id: Id<"order_items">) {
+	const orderItem = await ctx.table("order_items").get(id);
+
+	return orderItem;
 }
 
 export const getOrderItems = query({
@@ -61,20 +68,15 @@ export const updateStatus = mutation({
 		status: statusType,
 	},
 	async handler(ctx, args) {
-		const user = await ctx.auth.getUserIdentity();
+		const user = await getCurrentUser(ctx);
 		if (!user) throw new Error("Unauthorized");
 
-		const orderItem = ctx
-			.table("order_items")
-			.getX(args.id)
-			.patch({
-				status: args.status,
-			})
-			.catch(() => {
-				throw new Error("Cập nhật thất bại");
-			});
+		const existingItem = await findOrderItemById(ctx, args.id);
+		if (!existingItem) throw new Error("Không tìm thấy Order item");
 
-		return orderItem;
+		await existingItem.patch({
+			status: args.status,
+		});
 	},
 });
 
@@ -92,5 +94,4 @@ export async function createOrderItems(
 		.insertMany(formattedValues);
 
 	if (!orderItems) throw new Error("Thêm món ăn thất bại");
-
 }
