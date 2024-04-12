@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 // import { useConvexAuth } from "convex/react";
 import Image from "next/image";
 import Link from "next/link";

@@ -16,7 +16,7 @@ export function Navbar() {
 			)}
 		>
 			<SearchInput />
-			<UserButton afterSignOutUrl="/" />
+			<UserButton />
 		</nav>
 	);
 }
