@@ -5,8 +5,7 @@ import { preloadQuery } from "convex/nextjs";
 import Link from "next/link";
 import { api } from "@/convex/_generated/api";
 import { getAuthToken } from "@/lib/auth";
-import { ListMenu, ListMenuSkeleton } from "./_components/menu-list";
-import { Skeleton } from "@/components/ui/skeleton";
+import { ListMenu } from "./_components/menu-list";
 
 export default async function MenuPage() {
 	const token = await getAuthToken();
@@ -34,5 +33,3 @@ export default async function MenuPage() {
 		</section>
 	);
 }
-
-

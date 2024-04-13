@@ -3,6 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { cn } from "@/lib/utils";
 import { fontPoppins } from "@/fonts";
+import NextTopLoader from "nextjs-toploader";
 import { ConvexClientProvider } from "@/providers/convex-client-provider";
 import { Toaster } from "sonner";
 
@@ -25,6 +26,11 @@ export default function RootLayout({
 				)}
 			>
 				<ConvexClientProvider>
+					<NextTopLoader
+						height={6}
+						showSpinner={false}
+						color="#F66B15CC"
+					/>
 					<Toaster />
 					{children}
 				</ConvexClientProvider>
