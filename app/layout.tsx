@@ -2,6 +2,7 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 import { cn } from "@/lib/utils";
+import { ViewTransitions } from "next-view-transitions";
 import { fontPoppins } from "@/fonts";
 import NextTopLoader from "nextjs-toploader";
 import { ConvexClientProvider } from "@/providers/convex-client-provider";
@@ -22,25 +23,27 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body
-				className={cn(
-					"bg-background font-sans antialiased",
-					fontPoppins.variable
-				)}
-			>
-				<ConvexClientProvider>
-					<NextTopLoader
-						height={6}
-						showSpinner={false}
-						color="#F66B15CC"
-					/>
-					<Toaster />
-					<NextSSRPlugin
-						routerConfig={extractRouterConfig(ourFileRouter)}
-					/>
-					{children}
-				</ConvexClientProvider>
-			</body>
+			<ViewTransitions>
+				<body
+					className={cn(
+						"bg-background font-sans antialiased",
+						fontPoppins.variable
+					)}
+				>
+					<ConvexClientProvider>
+						{/* <NextTopLoader
+							height={6}
+							showSpinner={false}
+							color="#F66B15CC"
+						/> */}
+						<Toaster />
+						<NextSSRPlugin
+							routerConfig={extractRouterConfig(ourFileRouter)}
+						/>
+						{children}
+					</ConvexClientProvider>
+				</body>
+			</ViewTransitions>
 		</html>
 	);
 }
