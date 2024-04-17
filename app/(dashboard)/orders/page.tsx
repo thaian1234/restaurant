@@ -1,4 +1,3 @@
-import { DataTable } from "@/components/data-table";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { api } from "@/convex/_generated/api";
@@ -6,7 +5,6 @@ import { getAuthToken } from "@/lib/auth";
 import { preloadQuery, preloadedQueryResult } from "convex/nextjs";
 import { PlusCircleIcon } from "lucide-react";
 import Link from "next/link";
-import { columns } from "./_components/columns";
 import { redirect } from "next/navigation";
 import { Client } from "./_components/client";
 

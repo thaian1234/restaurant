@@ -1,6 +1,6 @@
 "use server";
 
-import { getImageId } from "@/lib/uploadthing";
+import { getImageId } from "@/lib/uploadthing-service";
 import { UTApi } from "uploadthing/server";
 
 export const deleteImage = async (url: string) => {

@@ -7,7 +7,6 @@ import { DishForm, DishFormSkeleton } from "./_components/dish-form";
 import { preloadQuery } from "convex/nextjs";
 import { api } from "@/convex/_generated/api";
 import { getAuthToken } from "@/lib/auth";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
 
 interface MenuIdPageProps {
