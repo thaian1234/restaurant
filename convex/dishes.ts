@@ -1,7 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "./functions";
 import { Id } from "./_generated/dataModel";
-import { cache } from "react";
 
 export const create = mutation({
 	args: {

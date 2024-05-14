@@ -31,14 +31,14 @@ export function CardDishItem({ item }: CardDishItemProps) {
 		startTransition(() => {
 			if (inProgress) {
 				updateStatus({
-					id: item._id,
+					orderItemId: item._id,
 					status: OrderItemStatus.complete,
 				}).catch(() => toast.error("Cập nhật thất bại"));
 			}
 
 			if (completed) {
 				updateStatus({
-					id: item._id,
+					orderItemId: item._id,
 					status: OrderItemStatus.delivered,
 				}).catch(() => toast.error("Cập nhật thất bại"));
 			}

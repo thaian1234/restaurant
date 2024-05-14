@@ -25,7 +25,7 @@ export function CellActions({ id, currentStatus }: CellActionsProps) {
 	const onUpdateStatus = (status: OrderItemStatus) => {
 		startTransition(() => {
 			updateStatus({
-				id,
+				orderItemId: id,
 				status,
 			})
 				.then(() => {

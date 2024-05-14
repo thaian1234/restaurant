@@ -2,8 +2,8 @@ import { Separator } from "@/components/ui/separator";
 import { api } from "@/convex/_generated/api";
 import { getAuthToken } from "@/lib/auth";
 import { preloadQuery } from "convex/nextjs";
-import { redirect } from "next/navigation";
 import { Client } from "./_components/client";
+import { OrderItemService } from "@/hooks/order-item-service";
 
 export default async function WaitListPage() {
 	const token = await getAuthToken();

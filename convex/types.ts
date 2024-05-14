@@ -6,6 +6,9 @@ import { entDefinitions } from "./schema";
 
 export type QueryCtx = CustomCtx<typeof query>;
 export type MutationCtx = CustomCtx<typeof mutation>;
+export type CtxType = CustomCtx<typeof mutation>;
+
+type TestType = CustomCtx<typeof mutation & typeof query>;
 
 export type Ent<TableName extends TableNames> = GenericEnt<
 	typeof entDefinitions,

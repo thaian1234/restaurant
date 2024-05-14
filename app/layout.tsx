@@ -31,11 +31,11 @@ export default function RootLayout({
 					)}
 				>
 					<ConvexClientProvider>
-						{/* <NextTopLoader
+						<NextTopLoader
 							height={6}
 							showSpinner={false}
 							color="#F66B15CC"
-						/> */}
+						/>
 						<Toaster />
 						<NextSSRPlugin
 							routerConfig={extractRouterConfig(ourFileRouter)}

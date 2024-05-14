@@ -1,5 +1,4 @@
 import { mutation } from "./functions";
-import { QueryCtx } from "./types";
 
 export const store = mutation({
 	args: {},
@@ -30,18 +29,3 @@ export const store = mutation({
 		});
 	},
 });
-
-export async function getCurrentUser(ctx: QueryCtx) {
-	const identity = await ctx.auth.getUserIdentity();
-	if (!identity) {
-		throw new Error("Unauthenticated call to mutation");
-	}
-
-	const user = await ctx
-		.table("users")
-		.get("tokenIdentifier", identity.tokenIdentifier);
-
-	if (!user) return null;
-
-	return user;
-}
